@@ -1,17 +1,20 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Category,OrderItem
-from .serializer import CategorySerializer
+from .models import *
+from .serializer import CategorySerializer,FoodSerializer
 from rest_framework import status
 from rest_framework.validators import ValidationError
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView,CreateAPIView,RetrieveAPIView,UpdateAPIView,DestroyAPIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.pagination import PageNumberPagination
 
 class CategoryViewset(ModelViewSet):
     queryset=Category.objects.all()
+    serializer_class=CategorySerializer
+    
 # from rest_framework.mixins
 # Create your views here.
 # @api_view(['GET','POST'])
@@ -76,3 +79,7 @@ class category_detail  (RetrieveAPIView,UpdateAPIView,DestroyAPIView):
     #         "data":serializer.data
     #         },status = status.Http_200_OK)
     
+class FoodViewset(ModelViewSet):
+    queryset=Food.objects.select_related('category').all()
+    serializer_class=FoodSerializer
+    pagination_class=PageNumberPagination
