@@ -41,7 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rms',
     'rest_framework',
+    'rest_framework.authtoken',
     'debug_toolbar',
+    'core',
+    'django_filters',
+    
+    'drf_spectacular',
+    
 ]
 
 MIDDLEWARE = [
@@ -75,6 +81,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -87,6 +94,7 @@ DATABASES = {
         'HOST': os.getenv('HOST'),
         'PORT': os.getenv('PORT'),
     }}
+AUTH_USER_MODEL = 'core.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -136,5 +144,16 @@ INTERNAL_IPS = [
 ]
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5
+    'PAGE_SIZE': 5,
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'RMS API',
+    'DESCRIPTION': 'Restaurant Management System',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
